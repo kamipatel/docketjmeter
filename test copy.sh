@@ -11,7 +11,6 @@ export TARGET_PATH="/kaarten.html"
 export TARGET_KEYWORD="Kaartdiensten"
 
 T_DIR=tests/trivial
-SCRIPT_DIR=/home/jmeterscript/redwoods-insurance/jmeterinfo
 
 # Reporting dir: start fresh
 R_DIR=${T_DIR}/report
@@ -23,14 +22,14 @@ mkdir -p ${R_DIR}
 ./run.sh -Dlog_level.jmeter=DEBUG \
 	-JTARGET_HOST=${TARGET_HOST} -JTARGET_PORT=${TARGET_PORT} \
 	-JTARGET_PATH=${TARGET_PATH} -JTARGET_KEYWORD=${TARGET_KEYWORD} \
-	-n -t ${SCRIPT_DIR}/cputest.jmx -l ${T_DIR}/test-plan.jtl -j ${T_DIR}/jmeter.log \
+	-n -t ${T_DIR}/test-plan.jmx -l ${T_DIR}/test-plan.jtl -j ${T_DIR}/jmeter.log \
 	-e -o ${R_DIR}
 
 echo "==== jmeter.log ===="
 cat ${T_DIR}/jmeter.log
 
 echo "==== Raw Test Report ===="
-cat ${T_DIR}/cputest-plan.jtl
+cat ${T_DIR}/test-plan.jtl
 
 echo "==== HTML Test Report ===="
 echo "See HTML test report in ${R_DIR}/index.html"

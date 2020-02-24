@@ -16,6 +16,7 @@ echo "JVM_ARGS=${JVM_ARGS}"
 echo "jmeter args=$@"
 
 # Keep entrypoint simple: we must pass the standard JMeter arguments
+echo $@
 jmeter $@
 echo "END Running Jmeter on `date`"
 
@@ -26,3 +27,5 @@ echo "END Running Jmeter on `date`"
 #    -D "java.rmi.server.hostname=${IP}" \
 #    -D "client.rmi.localport=${RMI_PORT}" \
 #  -R $REMOTE_HOSTS
+
+#cputest.jmx
