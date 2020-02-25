@@ -23,18 +23,38 @@ echo "GIT_URL=${GIT_URL}"
 echo "GIT_PROJECT=${GIT_PROJECT}"
 echo "JMETER_LIB_EXT=${JMETER_LIB_EXT}"
 echo "JMETER_SCRIPT_HOME=${JMETER_SCRIPT_HOME}"
-echo "JMX_FILE_NAME=${JMX_FILE_NAME}"
+echo "CSV_OUTPUT_PATH=${CSV_OUTPUT_PATH}"
+echo "GIT_USER_EMAIL=${GIT_USER_EMAIL}"
+echo "GIT_USER_NAME=${GIT_USER_NAME}"
+
+git --version 
 
 cd /home/jmeterscript
+git config --global user.email ${GIT_USER_EMAIL}
+git config --global user.name ${GIT_USER_NAME}
+
 git clone ${GIT_URL} 
 ls /home/jmeterscript/
-ls /home/jmeterscript/${GIT_PROJECT}/jmeterinfo
+ls /home/jmeterscript/${GIT_PROJECT}/jmeterinfo/
 
 echo "Before Java code run"
-java -classpath /home/jmeterscript/${GIT_PROJECT}/jmeterinfo/*:${JMETER_LIB_EXT}/*:${JMETER_LIB}/* zerotest.JmeterUtil "${JMETER_HOME}" "/home/jmeterscript/${GIT_PROJECT}/jmeterinfo" "${JMX_FILE_NAME}" "${OUTPUT_TYPE}"
+java -classpath /home/jmeterscript/${GIT_PROJECT}/jmeterinfo/*:${JMETER_LIB_EXT}/*:${JMETER_LIB}/* zerotest.JmeterUtil "${JMETER_HOME}" "/home/jmeterscript/${GIT_PROJECT}/jmeterinfo/"  "${CSV_OUTPUT_PATH}"
 echo "After Java code run"
 
-echo "END Running Jmeter on `date`"
+echo "May be you see csv"
+cp /home/jmeterscript/output/* /home/jmeterscript/${GIT_PROJECT}/dist/ 
+ls /home/jmeterscript/${GIT_PROJECT}/dist/
+echo "Did you see csv?"
+
+cd /home/jmeterscript/${GIT_PROJECT}
+git add .
+git commit -m "csv output"
+
+#git remote set-url origin https://kamipatel:7777171721078bbbdb91ea4218864563e7d2d5d9@github.com/kamipatel/redwoods-insurance.git
+git remote set-url origin https://kamipatel:${GITHUB_TOKEN}@github.com/kamipatel/redwoods-insurance.git
+git push --set-upstream origin master
+
+echo "END Running Jmeter on date"
 
 #     -n \
 #    -t "/tests/${TEST_DIR}/${TEST_PLAN}.jmx" \

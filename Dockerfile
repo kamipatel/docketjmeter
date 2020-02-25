@@ -2,19 +2,20 @@
 # https://github.com/hhcordero/docker-jmeter-server/blob/master/Dockerfile
 FROM alpine:3.10
 
-MAINTAINER Just van den Broecke<just@justobjects.nl>
+MAINTAINER Kam<cloudrewire@gmail.com>
 
 ARG JMETER_VERSION="5.1.1"
 ENV JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
-ENV JMETER_OUTPUT_TYPE CONSOLE-LOG
 ENV	JMETER_BIN	${JMETER_HOME}/bin
 ENV	JMETER_LIB	${JMETER_HOME}/lib/
 ENV	JMETER_LIB_EXT	${JMETER_HOME}/lib/ext
 ENV	JMETER_DOWNLOAD_URL  https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+ENV GIT_USER_EMAIL "kamipatel@gmail.com"
+ENV GIT_USER_NAME "kamipatel"
 ENV	GIT_URL TBD
 ENV	GIT_PROJECT TBD
-ENV	JMX_FILE_NAME TBD
-ENV	OUTPUT_TYPE TBD
+ENV CSV_OUTPUT_PATH=/home/jmeterscript/output/metrics.csv
+ENV GITHUB_TOKEN=TBD
 
 # Install extra packages
 # See https://github.com/gliderlabs/docker-alpine/issues/136#issuecomment-272703023
@@ -33,6 +34,7 @@ RUN    apk update \
 	&& tar -xzf /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz -C /opt  \
 	&& rm -rf /tmp/dependencies \	
 	&& mkdir -p /home/jmeterscript  \
+	&& mkdir -p /home/jmeterscript/output \
 	&& cd /home/jmeterscript  \
 	&& apk add --no-cache git 
 
