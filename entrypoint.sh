@@ -17,7 +17,23 @@ echo "jmeter args=$@"
 
 # Keep entrypoint simple: we must pass the standard JMeter arguments
 echo $@
-jmeter $@
+#jmeter $@
+
+echo "GIT_URL=${GIT_URL}"
+echo "GIT_PROJECT=${GIT_PROJECT}"
+echo "JMETER_LIB_EXT=${JMETER_LIB_EXT}"
+echo "JMETER_SCRIPT_HOME=${JMETER_SCRIPT_HOME}"
+echo "JMX_FILE_NAME=${JMX_FILE_NAME}"
+
+cd /home/jmeterscript
+git clone ${GIT_URL} 
+ls /home/jmeterscript/
+ls /home/jmeterscript/${GIT_PROJECT}/jmeterinfo
+
+echo "Before Java code run"
+java -classpath /home/jmeterscript/${GIT_PROJECT}/jmeterinfo/*:${JMETER_LIB_EXT}/*:${JMETER_LIB}/* zerotest.JmeterUtil "${JMETER_HOME}" "/home/jmeterscript/${GIT_PROJECT}/jmeterinfo" "${JMX_FILE_NAME}" "${OUTPUT_TYPE}"
+echo "After Java code run"
+
 echo "END Running Jmeter on `date`"
 
 #     -n \

@@ -8,13 +8,13 @@ ARG JMETER_VERSION="5.1.1"
 ENV JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_OUTPUT_TYPE CONSOLE-LOG
 ENV	JMETER_BIN	${JMETER_HOME}/bin
-ENV	JMETER_LIB	${JMETER_HOME}/lib/
 ENV	JMETER_LIB_EXT	${JMETER_HOME}/lib/ext
 ENV	JMETER_DOWNLOAD_URL  https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
-ENV	GIT_URL TBD
-ENV	GIT_PROJECT TBD
-ENV	JMX_FILE_NAME TBD
-ENV	OUTPUT_TYPE TBD
+ENV	GIT_URL https://github.com/kamipatel/redwoods-insurance.git
+ENV	GIT_PROJECT redwoods-insurance
+ENV JMETER_SCRIPT_HOME /home/jmeterscript/*/jmeterinfo/
+ENV JMETER_SCRIPT_NAME tbd
+ENV	JMX_FILE_NAME tbd
 
 # Install extra packages
 # See https://github.com/gliderlabs/docker-alpine/issues/136#issuecomment-272703023
@@ -34,7 +34,10 @@ RUN    apk update \
 	&& rm -rf /tmp/dependencies \	
 	&& mkdir -p /home/jmeterscript  \
 	&& cd /home/jmeterscript  \
-	&& apk add --no-cache git 
+	&& apk add --no-cache git \
+	&& git clone ${GIT_URL} \
+	&& cp /home/jmeterscript/*/jmeterinfo/*.jar ${JMETER_LIB_EXT} \
+	&& ls ${JMETER_LIB_EXT}
 
 # TODO: plugins (later)
 # && unzip -oq "/tmp/dependencies/JMeterPlugins-*.zip" -d $JMETER_HOME
